@@ -1,7 +1,11 @@
 import React from "react";
-import axios from "axios";
+import { getToken } from "../../Utils/ApiCalls";
 import styled from "styled-components";
-import { clientId, Logo, apiUrl, clientSecret } from "./../../Utils/Constants";
+import { useDispatch } from "react-redux";
+import { initializeToken } from "../../Redux/actions/stateActions";
+import {
+  BlackLogo,
+} from "../../Utils/Constants";
 
 const Container = styled("div")(({ theme }) => ({
   display: "flex",
@@ -27,26 +31,21 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 export default function Login({ setAccessToken, setLoading }) {
+  const dispatch = useDispatch();
   const handleClick = async () => {
     try {
       setLoading(true);
-      const data = await axios(apiUrl, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
-        },
-        data: "grant_type=client_credentials",
-        method: "POST",
-      });
+      const data = await getToken();
+      setAccessToken(data);
+      await dispatch(initializeToken(data));
       setLoading(false);
-      setAccessToken(data.data.access_token);
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <Container>
-      <img src={Logo} alt="spotify" />
+      <img src={BlackLogo} alt="spotify" />
       <button onClick={handleClick}>Connect Spotify</button>
     </Container>
   );
