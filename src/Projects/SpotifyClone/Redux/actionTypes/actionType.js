@@ -1,1 +1,3 @@
 export const INITIALIZE_TOKEN = "INITIALIZE_TOKEN";
+export const SET_CATEGORIES = "SET_CATEGORIES";
+

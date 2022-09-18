@@ -36,7 +36,7 @@ export default function Login({ setAccessToken, setLoading }) {
     try {
       setLoading(true);
       const data = await getToken();
-      setAccessToken(data);
+      await setAccessToken(data);
       await dispatch(initializeToken(data));
       setLoading(false);
     } catch (error) {

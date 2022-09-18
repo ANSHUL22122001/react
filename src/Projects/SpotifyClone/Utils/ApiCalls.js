@@ -19,11 +19,11 @@ export const getToken = () => {
   }
 };
 
-export const getPlaylist = (Token) => {
+export const getCategories = (Token) => {
   try {
     console.log(Token);
     return axios(
-      "https://api.spotify.com/v1/browse/categories?country=IN&offset=0&limit=20",
+      "https://api.spotify.com/v1/browse/categories",
       {
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const getPlaylist = (Token) => {
         },
         method: "GET",
       }
-    ).then((data) => data.data.categories.items);
+    ).then((data) => data.data.categories.items.map(({name, id}) => ({name, id})));
   } catch (error) {
     console.log(error);
   }
