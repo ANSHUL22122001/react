@@ -1,19 +1,28 @@
-import { INITIALIZE_TOKEN, SET_CATEGORIES } from "../actionTypes/actionType";
+import {
+  INITIALIZE_TOKEN,
+  SET_PLAYLIST,
+  SET_USERINFO,
+} from "../actionTypes/actionType";
 
 const initializeToken = (data) => {
-
-      console.log("state action",data);
   return {
     type: INITIALIZE_TOKEN,
     data,
   };
 };
 
-const setCategories = (data) => {
+const setPlaylist = (data) => {
   return {
-    type: SET_CATEGORIES,
+    type: SET_PLAYLIST,
     data,
   };
 };
 
-export { initializeToken, setCategories };
+const setUserInfo = (data) => {
+  return {
+    type: SET_USERINFO,
+    data,
+  };
+};
+
+export { initializeToken, setPlaylist, setUserInfo };

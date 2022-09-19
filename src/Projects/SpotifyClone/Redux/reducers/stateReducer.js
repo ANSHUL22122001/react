@@ -1,8 +1,13 @@
-import { INITIALIZE_TOKEN, SET_CATEGORIES } from "../actionTypes/actionType";
+import {
+  INITIALIZE_TOKEN,
+  SET_PLAYLIST,
+  SET_USERINFO,
+} from "../actionTypes/actionType";
 
 const initialState = {
   TOKEN: null,
-  catogories: []
+  userInfo: null,
+  playlist: []
 };
 
 const stateReducer = (state = initialState, action) => {
@@ -15,12 +20,16 @@ const stateReducer = (state = initialState, action) => {
           TOKEN: action.data,
         };
 
-      case SET_CATEGORIES:
+      case SET_PLAYLIST:
         return {
           ...state,
-          catogories: action.data,
+          playlist: action.data,
         };
-
+      case SET_USERINFO:
+        return {
+          ...state,
+          userInfo: action.data
+        }
       default:
         return state;
     }

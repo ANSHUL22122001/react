@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { styled } from '@mui/system';
 
 const Navbar = () => {
   return (

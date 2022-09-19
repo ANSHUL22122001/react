@@ -19,19 +19,29 @@ export const getToken = () => {
   }
 };
 
-export const getCategories = (Token) => {
+export const getPlaylist = (Token) => {
   try {
-    console.log(Token);
-    return axios(
-      "https://api.spotify.com/v1/browse/categories",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + Token,
-        },
-        method: "GET",
-      }
-    ).then((data) => data.data.categories.items.map(({name, id}) => ({name, id})));
+    return axios("https://api.spotify.com/v1/me/playlists", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Token,
+      },
+      method: "GET",
+    }).then((data) => data.data.items);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserInfo = (Token) => {
+  try {
+    return axios("https://api.spotify.com/v1/me", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Token,
+      },
+      method: "GET",
+    }).then((data) => data.data);
   } catch (error) {
     console.log(error);
   }

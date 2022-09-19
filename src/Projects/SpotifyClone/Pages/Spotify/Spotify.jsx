@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { styled } from "@mui/system";
 import { Sidebar, Navbar, Footer } from "./../../Components";
 import Body from "./Body";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserInfo } from "../../Utils/ApiCalls";
+import { setUserInfo } from "../../Redux/actions/stateActions";
 
 const SpotifyContainer = styled("div")(({ theme }) => ({
   backgroundColor: "red",
@@ -27,6 +30,17 @@ const SpotifyBody = styled("div")(({ theme }) => ({
 }));
 
 const Spotify = () => {
+  const token = useSelector((state) => state.TOKEN);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    
+    const getUserData = async () => {
+      const data = await getUserInfo(token);
+      await dispatch(setUserInfo(data));
+    };
+    getUserData();
+  }, [token, dispatch]);
   return (
     <SpotifyContainer>
       <SpotifyBody>

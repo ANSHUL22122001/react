@@ -1,3 +1,3 @@
 export const INITIALIZE_TOKEN = "INITIALIZE_TOKEN";
-export const SET_CATEGORIES = "SET_CATEGORIES";
-
+export const SET_PLAYLIST = "SET_PLAYLIST";
+export const SET_USERINFO = "SET_USERINFO";

@@ -1,10 +1,11 @@
 import React from "react";
-import { getToken } from "../../Utils/ApiCalls";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { initializeToken } from "../../Redux/actions/stateActions";
 import {
   BlackLogo,
+  clientId,
+  redirectUrl,
+  apiUrl,
+  scope,
 } from "../../Utils/Constants";
 
 const Container = styled("div")(({ theme }) => ({
@@ -30,18 +31,11 @@ const Container = styled("div")(({ theme }) => ({
   },
 }));
 
-export default function Login({ setAccessToken, setLoading }) {
-  const dispatch = useDispatch();
-  const handleClick = async () => {
-    try {
-      setLoading(true);
-      const data = await getToken();
-      await setAccessToken(data);
-      await dispatch(initializeToken(data));
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+export default function Login() {
+  const handleClick = () => {
+    window.location.href = `${apiUrl}?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scope.join(
+      " "
+    )}&response_type=token&show_dialog=true`;
   };
   return (
     <Container>

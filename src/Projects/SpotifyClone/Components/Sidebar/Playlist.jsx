@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { styled } from "@mui/system";
 import { useSelector, useDispatch } from "react-redux";
-import { getCategories } from "../../Utils/ApiCalls";
-import { setCategories } from "../../Redux/actions/stateActions";
+import { getPlaylist } from "../../Utils/ApiCalls";
+import { setPlaylist } from "../../Redux/actions/stateActions";
 
 const List = styled("ul")({
   listStyleType: "none",
@@ -32,22 +32,23 @@ const List = styled("ul")({
 
 const Playlist = () => {
   const token = useSelector((state) => state.TOKEN);
-  const [category, setCategory] = useState([])
+  const [newPlaylist, setNewPlaylist] = useState(
+    useSelector((state) => state.playlist)
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const Category = async() => {
-      const data = await getCategories(token);
-      await dispatch(setCategories(data));
-      await setCategory(data);
-      console.log(data);
+    const Playlist = async() => {
+      const data = await getPlaylist(token);
+      await dispatch(setPlaylist(data));
+      await setNewPlaylist(data);
     }
-    Category();
+    Playlist();
   },[token, dispatch]);
 
   return (
     <List>
-      {category.map((data, index) => (
+      {newPlaylist && newPlaylist.map((data, index) => (
         <li key={index}>
           <span>{data.name}</span>
         </li>
