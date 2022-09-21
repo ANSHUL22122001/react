@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import { styled } from "@mui/system";
 import { useSelector, useDispatch } from "react-redux";
 import { getPlaylist } from "../../Utils/ApiCalls";
-import { setPlaylist } from "../../Redux/actions/stateActions";
+import {
+  setPlaylist,
+  setInitialPlaylist,
+} from "../../Redux/actions/stateActions";
 
 const List = styled("ul")({
   listStyleType: "none",
@@ -41,6 +44,12 @@ const Playlist = () => {
     const Playlist = async() => {
       const data = await getPlaylist(token);
       await dispatch(setPlaylist(data));
+      if (data.length > 0) {
+        await dispatch(setInitialPlaylist(data[0].id));
+      }
+      else {
+        await dispatch(setInitialPlaylist("37i9dQZF1EIWQ7iXYvVC5w"));
+      }
       await setNewPlaylist(data);
     }
     Playlist();

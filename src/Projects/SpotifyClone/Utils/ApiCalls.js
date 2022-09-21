@@ -41,7 +41,49 @@ export const getUserInfo = (Token) => {
         Authorization: "Bearer " + Token,
       },
       method: "GET",
-    }).then((data) => data.data);
+    }).then((data) => {
+      const { display_name, id, email } = data.data;
+      return {display_name, id, email};
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const getUserSelectedPlaylist = (Token, Id) => {
+  try {
+    if (!Id) {
+      return null;
+    }
+    return axios(`https://api.spotify.com/v1/playlists/${Id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Token,
+      },
+      method: "GET",
+    })
+      .then((data) => { 
+        const {id, name, description, tracks, images} = data.data;
+        return {
+          id: id,
+          name: name,
+          description: description.startsWith("<a")
+            ? ""
+            : description,
+          image: images[0].url,
+          tracks: tracks.items.map(({ track }) => ({
+            id: track.id,
+            name: track.name,
+            artists: track.artists.map((artist) => artist.name),
+            image: track.album.images[2].url,
+            duration: track.duration_ms,
+            album: track.album.name,
+            context_uri: track.album.uri,
+            track_number: track.track_number,
+          }))
+        }
+      });
   } catch (error) {
     console.log(error);
   }

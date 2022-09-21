@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/system";
 import { Sidebar, Navbar, Footer } from "./../../Components";
 import Body from "./Body";
@@ -32,9 +32,18 @@ const SpotifyBody = styled("div")(({ theme }) => ({
 const Spotify = () => {
   const token = useSelector((state) => state.TOKEN);
   const dispatch = useDispatch();
-
+  let bodyRef = useRef();
+  const [navBackground, setNavBackground] = useState(false);
+  const [headerBackground, setHeaderBackground] = useState(false);
+  const bodyScrolled = async () => {
+    bodyRef?.current?.scrollTop >= 30
+      ? setNavBackground(true)
+      : setNavBackground(false);
+    bodyRef?.current?.scrollTop >= 268
+      ? setHeaderBackground(true)
+      : setHeaderBackground(false);
+  };
   useEffect(() => {
-    
     const getUserData = async () => {
       const data = await getUserInfo(token);
       await dispatch(setUserInfo(data));
@@ -45,10 +54,10 @@ const Spotify = () => {
     <SpotifyContainer>
       <SpotifyBody>
         <Sidebar />
-        <div className="SpotifyBodyNavbar">
-          <Navbar />
+        <div className="SpotifyBodyNavbar" re={bodyRef} onScroll={bodyScrolled}>
+          <Navbar navBackground={navBackground} />
           <div className="SpotifyBodyContent">
-            <Body />
+            <Body headerBackground={headerBackground} />
           </div>
         </div>
       </SpotifyBody>

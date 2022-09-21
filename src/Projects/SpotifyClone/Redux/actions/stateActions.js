@@ -2,6 +2,8 @@ import {
   INITIALIZE_TOKEN,
   SET_PLAYLIST,
   SET_USERINFO,
+  SET_INITIALPLAYLIST,
+  SET_SELECTEDPLAYLIST,
 } from "../actionTypes/actionType";
 
 const initializeToken = (data) => {
@@ -25,4 +27,24 @@ const setUserInfo = (data) => {
   };
 };
 
-export { initializeToken, setPlaylist, setUserInfo };
+const setInitialPlaylist = (data) => {
+  return {
+    type: SET_INITIALPLAYLIST,
+    data,
+  };
+};
+
+const setSelectedPlaylist = (data) => {
+  return {
+    type: SET_SELECTEDPLAYLIST,
+    data,
+  };
+};
+
+export {
+  initializeToken,
+  setPlaylist,
+  setUserInfo,
+  setInitialPlaylist,
+  setSelectedPlaylist,
+};
