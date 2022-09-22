@@ -4,6 +4,8 @@ import {
   SET_USERINFO,
   SET_INITIALPLAYLIST,
   SET_SELECTEDPLAYLIST,
+  SET_PLAYING,
+  SET_PLAYER_STATE,
 } from "../actionTypes/actionType";
 
 const initializeToken = (data) => {
@@ -41,10 +43,26 @@ const setSelectedPlaylist = (data) => {
   };
 };
 
+const setCurrentlyPlaying = (data) => {
+  return {
+    type: SET_PLAYING,
+    data,
+  };
+};
+
+const setPlayerState = (data) => {
+  return {
+    type: SET_PLAYER_STATE,
+    data
+  };
+}
+
 export {
   initializeToken,
   setPlaylist,
   setUserInfo,
   setInitialPlaylist,
   setSelectedPlaylist,
+  setCurrentlyPlaying,
+  setPlayerState,
 };

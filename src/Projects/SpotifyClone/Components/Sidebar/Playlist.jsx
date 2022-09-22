@@ -55,13 +55,17 @@ const Playlist = () => {
     Playlist();
   },[token, dispatch]);
 
+  const changeCurrentPlaylist = (Id) => {
+    dispatch(setInitialPlaylist(Id));
+  }
   return (
     <List>
-      {newPlaylist && newPlaylist.map((data, index) => (
-        <li key={index}>
-          <span>{data.name}</span>
-        </li>
-      ))}
+      {newPlaylist &&
+        newPlaylist.map((data, index) => (
+          <li key={index} onClick={() => changeCurrentPlaylist(data.id)}>
+            <span>{data.name}</span>
+          </li>
+        ))}
     </List>
   );
 }

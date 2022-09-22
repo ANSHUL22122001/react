@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiFillClockCircle } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserSelectedPlaylist } from "../../Utils/ApiCalls";
-import { setSelectedPlaylist } from "../../Redux/actions/stateActions";
+import { getUserSelectedPlaylist, changePlayingSong } from "../../Utils/ApiCalls";
+import {
+  setSelectedPlaylist,
+  setPlayerState,
+  setCurrentlyPlaying,
+} from "../../Redux/actions/stateActions";
 
 const Body = () => {
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.TOKEN);
   const [selectedPlaylistData, setSelectedPlaylistData] = useState(null);
-  const dispatch = useDispatch();
   const initialPlaylistId = useSelector((state) => state.initialPlaylistId);
 
   useEffect(() => {
@@ -28,6 +32,28 @@ const Body = () => {
     const seconds = ((ms % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   }
+
+  const playTrack = async (
+    id,
+    name,
+    artists,
+    image,
+    context_uri,
+    track_number
+  ) => {
+    const response = await changePlayingSong(token, context_uri, track_number);
+    if (response.status === 204) {
+      const currentPlaying = {
+        id,
+        name,
+        artists,
+        image,
+      };
+      dispatch(setCurrentlyPlaying(currentPlaying));
+    } 
+    dispatch(setPlayerState(true));
+    
+  };
 
   return (
     <BodyContainer>
@@ -77,7 +103,20 @@ const Body = () => {
                   index
                 ) => {
                   return (
-                    <div className="row" key={id}>
+                    <div
+                      className="row"
+                      key={id}
+                      onClick={() =>
+                        playTrack(
+                          id,
+                          name,
+                          artists,
+                          image,
+                          contextUrl,
+                          trackNumber
+                        )
+                      }
+                    >
                       <div className="col">
                         <span>{index + 1}</span>
                       </div>
@@ -86,8 +125,14 @@ const Body = () => {
                           <img src={image} alt="track" />
                         </div>
                         <div className="info">
-                          <span className="name">{name}</span>
-                          <span>{artists}</span>
+                          <span className="name">
+                            {name.slice(0, 50)}{" "}
+                            {name.length > 50 ? " . . . " : null}
+                          </span>
+                          <span>
+                            {artists.splice(0, 4).map((data) => data + ", ")}{" "}
+                            {artists.length > 3 ? artists[4] : null}
+                          </span>
                         </div>
                       </div>
                       <div className="col">

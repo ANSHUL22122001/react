@@ -4,6 +4,8 @@ import {
   SET_USERINFO,
   SET_INITIALPLAYLIST,
   SET_SELECTEDPLAYLIST,
+  SET_PLAYING,
+  SET_PLAYER_STATE,
 } from "../actionTypes/actionType";
 
 const initialState = {
@@ -11,7 +13,9 @@ const initialState = {
   userInfo: null,
   playlist: [],
   initialPlaylistId: null,
-  selectedPlaylist:null
+  selectedPlaylist: null,
+  currentlyPlaying: null,
+  playerState: false
 };
 
 const stateReducer = (state = initialState, action) => {
@@ -44,6 +48,16 @@ const stateReducer = (state = initialState, action) => {
           ...state,
           selectedPlaylist: action.data,
         };
+      case SET_PLAYING:
+        return {
+          ...state,
+          currentlyPlaying: action.data,
+        };
+      case SET_PLAYER_STATE:
+        return {
+          ...state,
+          playerState: action.data
+        }
       default:
         return state;
     }
